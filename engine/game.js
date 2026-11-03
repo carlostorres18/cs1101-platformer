@@ -11,7 +11,7 @@ const Game = (() => {
     levelIndex: 0, world: null, player: null, enemies: [], pickups: [], goals: [],
     particles: [], score: 0, scoreAtLevelStart: 0, lives: 3, deaths: 0,
     treasureGot: 0, treasureTotal: 0, time: 0, levelTime: 0,
-    mode: "play", dyingFor: 0, cam: { x: 0, y: 0 },
+    mode: "play", dyingFor: 0, cam: { x: 0, y: 0 }, waiting: true, paused: false,
     showHitboxes: false, toast: "", toastAt: -10,
   };
 
@@ -54,6 +54,7 @@ const Game = (() => {
     S.levelTime = 0;
     S.scoreAtLevelStart = S.score;
     S.mode = "play";
+    S.waiting = true;
     Input.clearPresses();
     snapCamera();
   }
@@ -125,6 +126,8 @@ const Game = (() => {
   }
 
   function step(dt) {
+    // Nothing moves while you're away (say, editing code in another window).
+    if (S.paused) return;
     S.time += dt;
     updateParticles(dt);
 
@@ -137,6 +140,12 @@ const Game = (() => {
       return;
     }
     if (S.mode !== "play") return;
+
+    // Each level holds still until you press a movement key.
+    if (S.waiting) {
+      if (!(Input.left || Input.right || Input.jumpHeld)) return;
+      S.waiting = false;
+    }
 
     S.levelTime += dt;
     const p = S.player;
@@ -207,7 +216,10 @@ const Game = (() => {
     Input.on("KeyM", () => say(SFX.toggleMute() ? "Sound off" : "Sound on"));
     Input.on("Enter", advance);
     Input.on("NumpadEnter", advance);
-    canvas.addEventListener("pointerdown", () => { SFX.unlock(); canvas.focus(); });
+    canvas.addEventListener("pointerdown", () => { SFX.unlock(); canvas.focus(); S.paused = false; });
+    addEventListener("blur", () => { S.paused = true; });
+    addEventListener("focus", () => { S.paused = false; });
+    addEventListener("keydown", () => { S.paused = false; });
   }
 
   function start() {

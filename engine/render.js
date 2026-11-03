@@ -240,6 +240,8 @@ const Render = (() => {
   function banner(ctx, W, H, title, lines) {
     ctx.fillStyle = "rgba(10,14,28,0.72)";
     ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "rgba(10,14,28,0.85)";
+    rr(ctx, W / 2 - 300, H / 2 - 84, 600, 110 + lines.length * 26, 14); ctx.fill();
     ctx.fillStyle = THEME.text;
     ctx.textAlign = "center";
     ctx.font = "700 40px system-ui, -apple-system, Segoe UI, sans-serif";
@@ -285,7 +287,7 @@ const Render = (() => {
       banner(ctx, W, H, "Level complete!", [
         "Score " + S.score + "   ·   Treasure " + S.treasureGot + "/" + S.treasureTotal +
           (S.treasureGot === S.treasureTotal && S.treasureTotal > 0 ? "   ·   +500 all-treasure bonus" : ""),
-        "Press Enter for the next level",
+        S.levelIndex + 1 < LEVELS.length ? "Press Enter for the next level" : "Press Enter to finish",
       ]);
     } else if (S.mode === "won") {
       banner(ctx, W, H, "You beat every level!", [
@@ -294,6 +296,10 @@ const Render = (() => {
       ]);
     } else if (S.mode === "gameover") {
       banner(ctx, W, H, "Game over", ["Score " + S.score, "Press Enter to try again"]);
+    } else if (S.paused) {
+      banner(ctx, W, H, "Paused", ["Click the game to keep playing"]);
+    } else if (S.waiting) {
+      toast(ctx, W, "Press an arrow key or Space to start", 0);
     }
   }
 

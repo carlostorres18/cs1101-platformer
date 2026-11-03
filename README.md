@@ -34,6 +34,9 @@ left, and the game opens in a panel on the right.
 
 - Files save automatically. To see a change, click the reload arrow at the
   top of the game panel.
+- The game pauses whenever you click away from it, and each level waits for
+  you to press a key before anything moves. So you can edit code without
+  losing lives.
 - If the game panel doesn't open by itself: click the **Ports** tab at the
   bottom, then the globe icon next to port 8000.
 
