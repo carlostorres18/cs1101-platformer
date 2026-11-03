@@ -128,6 +128,7 @@ You can also add `?level=3` to the end of the address to start on level 3.
 
 ## More
 
+- [CHALLENGES.md](CHALLENGES.md): the Day 2 challenges.
 - [docs/MAP.md](docs/MAP.md): a guided tour of every file and how they fit together.
 - [docs/IDEAS.md](docs/IDEAS.md): **optional** bigger features, if you want to go further.
 - Found something that doesn't work right? Open your repository's **Issues** tab
