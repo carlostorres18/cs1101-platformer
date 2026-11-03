@@ -27,6 +27,8 @@ const TUNING = {
   // How fast you fall. Bigger = heavier.          try 900 (moon) to 3500 (rock)
   GRAVITY: 1800,
 
+
+  
   // The fastest you can fall.                      try 400 to 1500
   MAX_FALL_SPEED: 900,
 
